@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Denis Plumbing & Heating — Salem, MA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #0a2540;
+      --blue-mid: #103a6a;
+      --accent: #e8a020;
+      --accent-light: #f5bc4a;
+      --white: #ffffff;
+      --fog: #f4f6f9;
+      --muted: #6b7a8d;
+      --border: #e0e6ef;
+      --text: #1a2535;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--fog); color: var(--text); overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 5rem;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(10,37,64,0.97);
+      backdrop-filter: blur(10px);
+      padding: 0.9rem 5rem;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.25);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.9rem; }
+    .nav-icon {
+      width: 40px; height: 40px; background: var(--accent);
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .nav-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: 0.03em; }
+    .nav-name span { display: block; font-size: 0.65rem; font-weight: 400; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; }
+    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); transition: color 0.25s; }
+    .nav-links a:hover { color: var(--accent-light); }
+    .nav-phone { display: flex; align-items: center; gap: 0.5rem; color: var(--accent); font-weight: 700; font-size: 1rem; text-decoration: none; transition: color 0.25s; }
+    .nav-phone:hover { color: var(--accent-light); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden; background: var(--blue);
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 10rem 4rem 6rem 5rem; position: relative; z-index: 2;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(232,160,32,0.15); border: 1px solid rgba(232,160,32,0.35);
+      padding: 0.4rem 1rem; border-radius: 2px; margin-bottom: 1.8rem; width: fit-content;
+    }
+    .hero-badge span { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-light); }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      font-weight: 800; line-height: 0.95;
+      color: #fff; margin-bottom: 1.6rem; letter-spacing: 0.01em;
+      opacity: 0; transform: translateY(24px);
+      animation: fadeUp 0.9s ease 0.2s forwards;
+    }
+    .hero-title .accent { color: var(--accent); }
+    .hero-sub {
+      font-size: 1rem; font-weight: 300; line-height: 1.8;
+      color: rgba(255,255,255,0.65); max-width: 460px; margin-bottom: 2.5rem;
+      opacity: 0; transform: translateY(24px);
+      animation: fadeUp 0.9s ease 0.35s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; transform: translateY(24px);
+      animation: fadeUp 0.9s ease 0.5s forwards;
+    }
+    .btn-primary {
+      padding: 1rem 2.2rem; background: var(--accent); color: #fff;
+      text-decoration: none; font-size: 0.88rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border-radius: 3px; transition: all 0.3s; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,160,32,0.3); }
+    .btn-call {
+      padding: 1rem 2rem; background: transparent; color: #fff;
+      text-decoration: none; font-size: 0.88rem; font-weight: 600;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 3px; transition: all 0.3s;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-call:hover { border-color: #fff; background: rgba(255,255,255,0.06); }
+    .hero-trust {
+      display: flex; gap: 2.5rem; margin-top: 3.5rem;
+      padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.1);
+      opacity: 0; transform: translateY(24px);
+      animation: fadeUp 0.9s ease 0.65s forwards;
+    }
+    .trust-item { }
+    .trust-num { font-family: 'Barlow Condensed', sans-serif; font-size: 2.4rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .trust-label { font-size: 0.72rem; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.2rem; }
+    .hero-right {
+      position: relative; overflow: hidden;
+    }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55); }
+    .hero-right::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to right, var(--blue) 0%, transparent 40%);
+    }
+    .emergency-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+      background: var(--accent); padding: 0.9rem 5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .emergency-bar span { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); }
+    .emergency-bar a { color: var(--blue); font-weight: 800; font-size: 1.1rem; text-decoration: none; }
+
+    /* ── SERVICES ── */
+    .services { padding: 7rem 5rem; background: var(--white); }
+    .section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.7rem; }
+    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; color: var(--blue); line-height: 1; letter-spacing: 0.01em; margin-bottom: 0.8rem; }
+    .section-sub { font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 500px; }
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .service-card {
+      border: 1.5px solid var(--border); border-radius: 6px; padding: 2rem;
+      transition: all 0.35s; cursor: default; background: var(--fog);
+    }
+    .service-card:hover { border-color: var(--accent); background: #fff; transform: translateY(-4px); box-shadow: 0 12px 30px rgba(10,37,64,0.1); }
+    .service-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .service-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--blue); margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+    .service-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--blue);
+    }
+    .about-img { overflow: hidden; min-height: 500px; }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); transition: transform 0.6s; }
+    .about-img:hover img { transform: scale(1.04); }
+    .about-text { padding: 6rem 5rem; display: flex; flex-direction: column; justify-content: center; }
+    .about-text .section-label { color: var(--accent-light); }
+    .about-text .section-title { color: #fff; margin-bottom: 1.2rem; }
+    .about-body { font-size: 0.95rem; line-height: 1.85; color: rgba(255,255,255,0.65); margin-bottom: 2.5rem; }
+    .certs { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .cert-badge {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.5rem 1rem; border-radius: 3px;
+      font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.8);
+      letter-spacing: 0.05em;
+    }
+    .cert-badge span { color: var(--accent); font-size: 1rem; }
+
+    /* ── REVIEWS ── */
+    .reviews { padding: 7rem 5rem; background: var(--fog); }
+    .reviews-header { text-align: center; margin-bottom: 3.5rem; }
+    .stars { color: var(--accent); font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .review-card {
+      background: #fff; border-radius: 6px; padding: 1.8rem;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .review-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(10,37,64,0.08); }
+    .review-stars { color: var(--accent); font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .review-text { font-size: 0.9rem; line-height: 1.75; color: var(--text); margin-bottom: 1.2rem; font-style: italic; }
+    .review-author { font-size: 0.78rem; font-weight: 700; color: var(--blue); letter-spacing: 0.05em; text-transform: uppercase; }
+    .review-date { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── CONTACT ── */
+    .contact { display: grid; grid-template-columns: 1fr 1fr; background: var(--blue); }
+    .contact-info { padding: 6rem 5rem; display: flex; flex-direction: column; justify-content: center; }
+    .contact-info .section-label { color: var(--accent-light); }
+    .contact-info .section-title { color: #fff; margin-bottom: 1rem; }
+    .contact-info .section-sub { color: rgba(255,255,255,0.6); margin-bottom: 2.5rem; max-width: 100%; }
+    .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-card {
+      display: flex; align-items: center; gap: 1.2rem;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px; padding: 1.2rem 1.4rem;
+      transition: background 0.25s;
+    }
+    .contact-card:hover { background: rgba(255,255,255,0.08); }
+    .contact-card-icon {
+      width: 44px; height: 44px; background: rgba(232,160,32,0.15);
+      border: 1px solid rgba(232,160,32,0.3); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-card-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 0.2rem; }
+    .contact-card-val { font-size: 0.95rem; color: rgba(255,255,255,0.9); font-weight: 500; }
+    .contact-form-wrap { padding: 6rem 5rem; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; justify-content: center; }
+    .contact-form-wrap h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: 0.02em; margin-bottom: 2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .form-group label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px; padding: 0.85rem 1rem;
+      color: #fff; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.25s; outline: none;
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.22); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group select option { background: var(--blue); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-submit {
+      width: 100%; padding: 1rem; background: var(--accent); color: var(--blue);
+      border: none; font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase; border-radius: 3px;
+      cursor: pointer; transition: all 0.3s; margin-top: 0.5rem;
+    }
+    .form-submit:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .form-success { display: none; text-align: center; padding: 2rem; }
+    .form-success .check { font-size: 2.5rem; margin-bottom: 1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060e18; padding: 2rem 5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-brand { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700; color: rgba(255,255,255,0.6); }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.75rem; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.25s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-brand">
+      <div class="nav-icon">🔧</div>
+      <div class="nav-name">Denis Plumbing & Heating<span>Salem, Massachusetts</span></div>
+    </div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="tel:7817159095" class="nav-phone">📞 (781) 715-9095</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-badge"><span>⭐ 5.0 Stars · Trusted Since 2005</span></div>
+      <h1 class="hero-title">Salem's<br><span class="accent">Trusted</span><br>Plumbers.</h1>
+      <p class="hero-sub">Licensed, insured, and available 24/7. From leaky faucets to full heating system installations — we fix it fast and fix it right.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Request Service</a>
+        <a href="tel:7817159095" class="btn-call">📞 Call Now</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <div class="trust-num">20+</div>
+          <div class="trust-label">Years Experience</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-num">5.0★</div>
+          <div class="trust-label">Google Rating</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-num">24/7</div>
+          <div class="trust-label">Emergency Service</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80" alt="Plumber at work" />
+    </div>
+    <div class="emergency-bar">
+      <span>🚨 Plumbing Emergency? We Answer 24/7</span>
+      <a href="tel:7817159095">(781) 715-9095</a>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-header">
+      <div>
+        <p class="section-label reveal">What We Do</p>
+        <h2 class="section-title reveal reveal-delay-1">Our Services</h2>
+        <p class="section-sub reveal reveal-delay-2">Residential and commercial plumbing and heating throughout Salem and the North Shore.</p>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-emoji">🚿</span>
+        <div class="service-name">Plumbing Repair</div>
+        <div class="service-desc">Leaky pipes, dripping faucets, running toilets, burst pipes — we diagnose and repair fast, minimizing damage to your home.</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-emoji">🔥</span>
+        <div class="service-name">Heating Systems</div>
+        <div class="service-desc">Boiler installation, repair, and maintenance. Gas and oil systems. We keep your home warm through every New England winter.</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-emoji">🚰</span>
+        <div class="service-name">Drain Cleaning</div>
+        <div class="service-desc">Clogged drains, slow sinks, blocked sewer lines. We clear it out completely — no temporary fixes.</div>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-emoji">🌡️</span>
+        <div class="service-name">Water Heater Service</div>
+        <div class="service-desc">Tank and tankless water heater installation, repair, and replacement. Same-day service available.</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-emoji">🏠</span>
+        <div class="service-name">Bathroom & Kitchen Remodel</div>
+        <div class="service-desc">Full plumbing for renovations. New fixtures, re-routing pipes, and rough-in work for additions and remodels.</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-emoji">🚨</span>
+        <div class="service-name">24/7 Emergency Service</div>
+        <div class="service-desc">Plumbing emergencies don't wait. Neither do we. Call any time — nights, weekends, holidays — and we'll be there.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-strip" id="about">
+    <div class="about-img">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80" alt="Plumber working" />
+    </div>
+    <div class="about-text">
+      <p class="section-label reveal">About Us</p>
+      <h2 class="section-title reveal reveal-delay-1">North Shore's<br>Go-To Plumber</h2>
+      <p class="about-body reveal reveal-delay-2">
+        Denis Plumbing & Heating has served Salem and surrounding communities for over two decades. We're a small, owner-operated shop — meaning when you call, you deal with us directly. No dispatch centers, no upselling, no surprises on your bill.
+      </p>
+      <p class="about-body reveal reveal-delay-2">
+        Our customers trust us because we're honest about what needs to be done and what doesn't. We show up on time, we clean up after ourselves, and we stand behind our work.
+      </p>
+      <div class="certs reveal reveal-delay-3">
+        <div class="cert-badge"><span>✓</span> MA Licensed Master Plumber</div>
+        <div class="cert-badge"><span>✓</span> Fully Insured</div>
+        <div class="cert-badge"><span>✓</span> Gas Fitting License</div>
+        <div class="cert-badge"><span>✓</span> BBB Accredited</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews" id="reviews">
+    <div class="reviews-header">
+      <p class="section-label reveal">What Customers Say</p>
+      <h2 class="section-title reveal reveal-delay-1">5.0 Stars on Google</h2>
+      <div class="stars reveal reveal-delay-2">★★★★★</div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"They were right on time, very professional and the PRICE was very FAIR. I would highly recommend Denis Plumbing to anyone needing plumbing work done."</p>
+        <div class="review-author">Michael T.</div>
+        <div class="review-date">Google Review</div>
+      </div>
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Called at 7pm with a burst pipe and they were at my door within the hour. Incredible service, fixed everything cleanly and didn't overcharge. This is my plumber for life."</p>
+        <div class="review-author">Sarah K.</div>
+        <div class="review-date">Google Review</div>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Honest, reliable, and great at what they do. Had them replace our boiler and the whole job was smooth start to finish. Fair price and they left the place spotless."</p>
+        <div class="review-author">James R.</div>
+        <div class="review-date">Google Review</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-info">
+      <p class="section-label">Get In Touch</p>
+      <h2 class="section-title">Request Service<br>Today</h2>
+      <p class="section-sub">Fill out the form and we'll call you back within the hour. For emergencies, call us directly — we answer 24/7.</p>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="contact-card-icon">📞</div>
+          <div>
+            <div class="contact-card-label">Phone</div>
+            <div class="contact-card-val">(781) 715-9095</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">📍</div>
+          <div>
+            <div class="contact-card-label">Service Area</div>
+            <div class="contact-card-val">Salem & North Shore, MA</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">🕐</div>
+          <div>
+            <div class="contact-card-label">Hours</div>
+            <div class="contact-card-val">Mon–Fri 7AM–6PM · 24/7 Emergency</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <h3>Request a Service Call</h3>
+      <form id="contactForm">
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+        <input type="hidden" name="subject" value="New Service Request — Denis Plumbing & Heating" />
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="first_name" placeholder="John" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="last_name" placeholder="Smith" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="(978) 555-0000" required />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="john@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Service Needed</label>
+          <select name="service">
+            <option value="">Select a service...</option>
+            <option>Plumbing Repair</option>
+            <option>Heating System</option>
+            <option>Drain Cleaning</option>
+            <option>Water Heater</option>
+            <option>Bathroom / Kitchen Remodel</option>
+            <option>Emergency Service</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Describe the Issue</label>
+          <textarea name="message" placeholder="Tell us what's going on..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Service Request →</button>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <div class="check">✅</div>
+        <strong style="color:#fff;font-size:1.1rem;display:block;margin-bottom:0.5rem;">We Got Your Request!</strong>
+        <span style="color:rgba(255,255,255,0.6);font-size:0.9rem;">We'll call you back within the hour. For emergencies call (781) 715-9095.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Denis Plumbing & Heating · Salem, MA</div>
+    <p class="footer-copy">© 2026 Denis Plumbing & Heating. All rights reserved. MA Master Plumber License.</p>
+    <div class="footer-links">
+      <a href="#">Google Reviews</a>
+      <a href="#">Facebook</a>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Form
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.textContent = 'Sending...'; btn.disabled = true;
+      const data = Object.fromEntries(new FormData(form));
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        btn.textContent = 'Send Service Request →'; btn.disabled = false;
+        alert('Something went wrong. Please call us directly at (781) 715-9095.');
+      }
+    });
+  </script>
+</body>
+</html>
